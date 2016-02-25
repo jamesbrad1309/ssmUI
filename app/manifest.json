@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "vendor.js": {
+      "files": [],
+      "main": true
+    },
+    "vendor.css": {
+      "files": [],
+      "main": true
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "starter-kit",
+  "description": "a starter gulp tool to build static theme",
+  "main": "index.js",
+  "authors": [
+    "Thanh Hoang"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "gulp",
+    "starter",
+    "html",
+    "css",
+    "npm",
+    "bower"
+  ],
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node",
+    "yui"
+  ],
+  "homepage": "http://radiusonline.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize-strings": "normalize#~1.0.4",
+    "animate.css": "~3.5.1"
+  }
+}
