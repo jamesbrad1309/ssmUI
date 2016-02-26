@@ -8,5 +8,8 @@
       "files": [],
       "main": true
     }
+  },
+  "config": {
+    "devUrl": "http://localhost"
   }
 }
