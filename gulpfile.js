@@ -109,6 +109,8 @@ gulp.task('clean', function(){
       // console.log('Deleted files and folders:\n', paths.join('\n'));
       console.log('cleaned files');
   });
+
+  connect.serverClose();
 });
 
 // Build Task -- no need to compile to build folder due to requirement
@@ -138,11 +140,7 @@ gulp.task('serve', ['watch'], function() {
   connect.server({
     root: 'app/',
     livereload: true,
-    port: 3000,
-    open: {
-      browser: 'Google Chrome',
-      url: 'http://localhost:3000'
-    }
+    port: 3000
   });
 });
 
