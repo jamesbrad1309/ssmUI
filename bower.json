@@ -31,7 +31,7 @@
     "tests"
   ],
   "dependencies": {
-    "normalize-strings": "normalize#~1.0.4",
+    "jquery": "~2.2.1",
     "animate.css": "~3.5.1"
   }
 }
