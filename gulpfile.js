@@ -1,5 +1,8 @@
 // Global variables
-var $             = require('gulp-load-plugins')(),
+var $             = require('gulp-load-plugins')({  // load gulp plugins
+            pattern: ['gulp-*', 'gulp.*', 'main-bower-files'],
+            replaceString: /\bgulp[\-.]/
+          }),
     gulp          = require('gulp'),
     autoprefixer  = require('autoprefixer'),
     browsersync   = require('browser-sync').create(),
@@ -7,34 +10,31 @@ var $             = require('gulp-load-plugins')(),
     _             = require('underscore'),
     connect       = require('gulp-connect');
 
-// Asset builder
-var manifest = require('asset-builder')('./app/manifest.json');
-
 // Vendor js files from bower
 gulp.task('vendor-js', function(){
-  manifest.forEachDependency('js', function (dep){
-    return gulp.src(dep.globs)
-    .pipe($.concat('vendor.js'))
-    .pipe($.uglify())
-    .pipe(gulp.dest('app/'))
-    .pipe(browsersync.reload({
-      stream: true
-    }));
-  });
+  return gulp.src($.mainBowerFiles())
+  .pipe($.filter('**/*.js'))
+  .pipe($.order([
+    'jquery.js',
+    '*'
+  ]))
+  .pipe($.concat('vendor.js'))
+  .pipe($.uglify())
+  .pipe(gulp.dest('app/'));
 });
 
 // Main js
 gulp.task('script', function(){
   return gulp.src('app/js/**/*.js')
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'))
-    .pipe($.jshint.reporter('fail'))
-    .pipe($.concat('main.js'))
-    .pipe($.uglify())
-    .pipe(gulp.dest('app/'))
-    .pipe(browsersync.reload({
-      stream: true
-    }));
+  .pipe($.jshint())
+  .pipe($.jshint.reporter('jshint-stylish'))
+  .pipe($.jshint.reporter('fail'))
+  .pipe($.concat('main.js'))
+  .pipe($.uglify())
+  .pipe(gulp.dest('app/'))
+  .pipe(browsersync.reload({
+    stream: true
+  }));
 });
 
 // JS Task
@@ -42,19 +42,18 @@ gulp.task('jsTask', ['script', 'vendor-js']);
 
 // Vendor css files from bower
 gulp.task('vendor-css', function(){
-  var globs = manifest.globs.bower;
-  var cssDependencies = _.filter(globs, function (glob){
-    return glob.split('.').pop() === 'css' || glob.split('.').pop() === 'scss';
-  });
 
-  return gulp.src(cssDependencies)
-    .pipe($.sass())
-    .pipe($.concat('vendor.css'))
-    .pipe($.cssnano())
-    .pipe(gulp.dest('app/'))
-    .pipe(browsersync.reload({
-      stream: true
-    }));
+  return gulp.src($.mainBowerFiles())
+  .pipe($.filter(['**/*.scss', '**/*.css', '**/*.less']))
+  .pipe($.order([
+    'bootstrap.css',
+    '*'
+  ]))
+  .pipe($.sass())
+  .pipe($.concat('vendor.css'))
+  .pipe($.cssnano())
+  .pipe(gulp.dest('app/'));
+
 });
 
 // Main css
@@ -65,13 +64,13 @@ var processor = [autoprefixer({
 
 gulp.task('style', function(){
   return gulp.src('app/styles/main.scss')
-    .pipe($.sass())
-    .pipe($.postcss(processor))
-    .pipe($.cssnano())
-    .pipe(gulp.dest('app/'))
-    .pipe(browsersync.reload({
-      stream: true
-    }));
+  .pipe($.sass())
+  .pipe($.postcss(processor))
+  .pipe($.cssnano())
+  .pipe(gulp.dest('app/'))
+  .pipe(browsersync.reload({
+    stream: true
+  }));
 });
 
 // CSS Task
@@ -106,7 +105,6 @@ gulp.task('imageTask', function(){
 gulp.task('clean', function(){
   del(['app/main.css', 'app/main.js','app/vendor.css', 'app/vendor.js'])
   .then( paths => {
-      // console.log('Deleted files and folders:\n', paths.join('\n'));
       console.log('cleaned files');
   });
 
