@@ -17,3 +17,7 @@ Thumbs.db
 .sass-cache
 bower_components
 node_modules
+app/vendor.css
+app/vendor.js
+app/main.css
+app/main.js
