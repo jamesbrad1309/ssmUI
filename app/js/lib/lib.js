@@ -1,1 +1,1 @@
-console.log('lib/lib.js');
+console.log('lib.js is worked');
